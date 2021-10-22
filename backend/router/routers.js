@@ -31,4 +31,9 @@ router.post('/create', async (req, res) => {
     }
 })
 
+router.delete('/delete-availability/:_id'), async (req, res) => {
+    let response = await Availability.findByIdAndDelete(req.params._id)
+    res.json(response)
+}
+
 module.exports = router;

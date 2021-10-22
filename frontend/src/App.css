@@ -1,3 +1,12 @@
 body, .form-select, .form-control {
   font-size: 12px;
 }
+
+.item-data {
+  padding: 12px 0px 3px 0px;
+  border-bottom: 1px solid #ddd;
+}
+
+.trash {
+  padding: 12px 0px 3px 0px;
+}

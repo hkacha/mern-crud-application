@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { FiTrash2 } from "react-icons/fi";
 import { Row, Col, Form, Button, Container } from 'react-bootstrap';
 
 // Import components
@@ -37,6 +38,15 @@ const Home = () => {
         })
     }
 
+    const handleDelete = async (id) => {
+        await axios({
+            method: "DELETE",
+            url: `/delete-availability/${id}`,
+        }).then(res => {
+            setAvailabilites(availabilites.filter((el => el._id !== id)))
+        });
+    }
+
     useEffect(() => {
         getAllAvailabilites(1);
     }, [availabilites])
@@ -48,7 +58,35 @@ const Home = () => {
 
                 <Row>
                     <Col lg={7}>
-                        <table className="table">
+                        {
+                            availabilites.map((item, index) => {
+                                return(
+                                    <Row key={index}>
+                                        <Col>
+                                            <div className="item-data text-capitalize">{item.dayType}</div>
+                                        </Col>
+                                        <Col>
+                                            <div className="item-data text-capitalize">{item.daysOfWeek}</div>
+                                        </Col>
+                                        <Col>
+                                            <div className="item-data text-capitalize">{item.every}</div>
+                                        </Col>
+                                        <Col>
+                                            <div className="item-data">{item.startTime}</div>
+                                        </Col>
+                                        <Col>
+                                            <div className="item-data">{item.endTime}</div>
+                                        </Col>
+                                        <Col>
+                                            <div className="trash" onClick={() => handleDelete(item._id)}>
+                                                <FiTrash2 className="text-danger" />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                )
+                            })
+                        }
+                        {/* <table className="table">
                             <tbody>
                                 {
                                     availabilites.map((item, index) => {
@@ -59,18 +97,18 @@ const Home = () => {
                                                 <td>{item.every}</td>
                                                 <td>{item.startTime}</td>
                                                 <td>{item.endTime}</td>
-                                                <td>Delete</td>
+                                                <td><FiTrash2 className="text-danger" /></td>
                                             </tr>
                                         )
                                     })
                                 }
                             </tbody>
-                        </table>
+                        </table> */}
                     </Col>
                 </Row>
 
                 <Row>
-                    <Col lg={7}>
+                    <Col lg={7} className="mt-3">
                         {isFormVisible ?
                             <Formik
                                 initialValues={{ carer: 1, dayType: "", daysOfWeek: "", every: "", startTime: "", endTime: "" }}
@@ -162,7 +200,7 @@ const Home = () => {
                             )}
                             </Formik>
                         :
-                            <p className="text-primary fw-bold" onClick={() => setIsFormVisible(true)}>Add more +</p>
+                            <p className="text-primary fw-bold mt-3" onClick={() => setIsFormVisible(true)}>Add more +</p>
                         }
                     </Col>
                 </Row>
