@@ -10,3 +10,7 @@ body, .form-select, .form-control {
 .trash {
   padding: 12px 0px 3px 0px;
 }
+
+.btn-icon {
+  padding: 5px 0px 3px 0px;
+}
